@@ -1,0 +1,59 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(uid) {
+      return isSignedIn() && request.auth.uid == uid;
+    }
+
+    // Missing Role field (or any value other than 'admin') is never admin.
+    function isAdmin() {
+      return isSignedIn() &&
+        get(/databases/$(database)/documents/Users/$(request.auth.uid)).data.Role == 'admin';
+    }
+
+    match /Users/{uid} {
+      // Anyone signed in can read their own profile; admins can read all.
+      allow read: if isOwner(uid) || isAdmin();
+
+      // A user can create only their OWN profile doc on signup, and it
+      // must start as Role "user" — prevents self-registering as admin.
+      allow create: if isOwner(uid) && request.resource.data.Role == 'user';
+
+      // A user may update their OWN profile fields (name, phone, etc.)
+      // but can never touch Role — only an admin can promote/demote,
+      // and only an admin can edit someone else's doc at all.
+      allow update: if (isOwner(uid)
+          && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['Role']))
+        || isAdmin();
+
+      allow delete: if isAdmin();
+
+      // -- Chat history for the MockMaster AI Assistant --
+      // Only the owning user can ever read/write their own conversation.
+      match /ChatMessages/{messageId} {
+        allow read, create, delete: if isOwner(uid);
+      }
+
+      // -- Completed interview results --
+      // No rule existed for this subcollection before, so every read/
+      // write to it was silently denied (harmless so far since nothing
+      // in the app calls logCompletedInterview yet, but needed the
+      // moment that changes).
+      match /InterviewSessions/{sessionId} {
+        allow read, create: if isOwner(uid);
+      }
+    }
+
+    match /Questions/{questionId} {
+      // Any signed-in user (taking a mock test) can read questions.
+      allow read: if isSignedIn();
+      // Only admins can add, edit, or delete questions.
+      allow create, update, delete: if isAdmin();
+    }
+  }
+}

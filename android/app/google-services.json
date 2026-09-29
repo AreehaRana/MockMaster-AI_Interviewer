@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "1038016249143",
+    "project_id": "mockmaster-755e1",
+    "storage_bucket": "mockmaster-755e1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1038016249143:android:b33762775e48035a02eeb2",
+        "android_client_info": {
+          "package_name": "com.example.mockmaster"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1038016249143-00ou205nq2ai8ct9lmfl5agh6670ip6f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mockmaster",
+            "certificate_hash": "707939821535e5484af04af90707d003902e0441"
+          }
+        },
+        {
+          "client_id": "1038016249143-c74but8jktvqs8dv779b11cfsuocfb1u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBapl1PolqaTuKUB6_Ut4BBKmkoIKWMwHc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1038016249143-c74but8jktvqs8dv779b11cfsuocfb1u.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1038016249143-isdmog0td497ei288mpqmobtndqdh73i.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.mockmaster"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
