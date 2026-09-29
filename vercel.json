@@ -1,0 +1,5 @@
+{
+  "buildCommand": "flutter build web --no-tree-shake-icons --no-wasm-dry-run",
+  "outputDirectory": "build/web",
+  "installCommand": "bash ./vercel-install.sh"
+}
